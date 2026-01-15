@@ -120,7 +120,7 @@ onMounted(() => {
                   <p>Album</p>
                   <h2> {{ musicStore.tracks[0]?.trackName }}</h2>
                   <p>{{ new Date(musicStore.tracks[0]?.releaseDate).getFullYear() }} , {{
-                    formatDuration(musicStore.tracks[0].trackTimeMillis) }}</p>
+                    formatDuration(musicStore.tracks[0]?.trackTimeMillis) }}</p>
                 </v-col>
               </v-row>
             </v-col>

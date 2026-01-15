@@ -1,8 +1,13 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const q = query.q as string
-
+  const page = Number(query.page || 2)
+  const limit = 20
+  const offset = (page - 1) * limit
   console.log('SEARCH QUERY:', q)
+
+
+
 
   // ถ้าไม่มี query ให้ดึงเพลงดัง
   if (!q) {
@@ -12,7 +17,8 @@ export default defineEventHandler(async (event) => {
         params: {
           term: 'bodyslam',
           media: 'music',
-          limit: 20
+          limit: limit,
+          offset: offset
         }
       }
     )
@@ -26,7 +32,8 @@ export default defineEventHandler(async (event) => {
       params: {
         term: q,
         media: 'music',
-        limit: 20
+        limit: 20,
+        offset: offset
       }
     }
   )

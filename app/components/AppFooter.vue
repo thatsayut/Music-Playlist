@@ -15,9 +15,9 @@
               <p class="text-caption text-grey mb-0">{{ currentTrack?.artistName || currentTrack?.artist || 'ศิลปิน' }}
               </p>
             </v-col>
-            <v-col cols="1">
+            <!-- <v-col cols="1">
               <v-btn icon="mdi-plus-circle-outline" variant="text" size="" color="grey"></v-btn>
-            </v-col>
+            </v-col> -->
           </v-row>
        
         </v-col>
