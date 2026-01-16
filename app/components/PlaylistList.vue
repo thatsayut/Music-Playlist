@@ -1,71 +1,67 @@
 <template>
   <div class="playlist-container">
-    <div class="playlist-header">
+    <div class="playlist-header d-none d-sm-flex">
       <h2 class="playlist-title">Your Library</h2>
-      <v-btn 
-        color="grey-darken-4" 
-        rounded="pill" 
-        
-        @click="showCreateDialog = true"
-        class="create-playlist-btn"
-      >
+      <v-btn color="grey-darken-4" rounded="pill" @click="showCreateDialog = true" class="create-playlist-btn">
         <v-icon size="small" class="mr-2">mdi-plus</v-icon>
         Create
       </v-btn>
     </div>
+    <div class="d-sm-none d-block text-center">
+      <v-icon style="font-size: 40px;">mdi-playlist-music-outline</v-icon>
+      <v-btn color="grey-darken-4" rounded="pill" block @click="showCreateDialog = true" class="mb-4 py-8">
+        <v-icon size="small" class="" style="font-size: 35px;">mdi-plus-circle-outline</v-icon>
 
-    <!-- Create Playlist Dialog -->
-    <v-dialog v-model="showCreateDialog" max-width="400">
-      <v-card class="playlist-dialog" color="#282828">
-        <v-card-title class="text-white">Create New Playlist</v-card-title>
-        <v-card-text>
-          <v-text-field 
-            v-model="newPlaylistName" 
-            label="Playlist Name" 
-            class="mt-4"
-            variant="outlined"
-            density="compact"
-            color="#1DB954"
-          ></v-text-field>
-          <v-text-field 
-            v-model="newPlaylistDesc" 
-            label="Description (Optional)" 
-            variant="outlined"
-            density="compact"
-            color="#1DB954"
-            class="mt-3"
-          ></v-text-field>
+      </v-btn>
+    </div>
+
+
+
+
+    <v-dialog v-model="showCreateDialog" max-width="420" persistent>
+      <v-card class="playlist-dialog pa-2" elevation="10" rounded="xl" color="#181818">
+
+        <v-card-title class="text-white text-h6 font-weight-bold pb-2">
+          Create New Playlist
+        </v-card-title>
+
+
+        <v-card-text class="pt-0">
+          <v-text-field v-model="newPlaylistName" label="Playlist Name" variant="outlined" density="comfortable"
+            color="#1DB954" bg-color="#121212" class="mt-2" hide-details />
+
+          <v-text-field v-model="newPlaylistDesc" label="Description (Optional)" variant="outlined"
+            density="comfortable" color="#1DB954" bg-color="#121212" class="mt-4" hide-details />
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn @click="showCreateDialog = false" color="#b3b3b3">Cancel</v-btn>
-          <v-btn @click="createPlaylist" color="#1DB954">Create</v-btn>
+
+
+        <v-card-actions class="px-4 pb-4">
+          <v-spacer />
+
+          <v-btn color="#ffffff"  rounded="xl"   variant="outlined" class="px-6 spotify-btn-cancel" @click="showCreateDialog = false">
+            Cancel
+          </v-btn>
+
+          <v-btn color="#1DB954" rounded="xl" elevation="4" class="px-6 text-white font-weight-bold spotify-btn"
+            @click="createPlaylist">
+            Create
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
+
     <!-- Playlists Grid -->
     <div class="playlists-list" v-if="musicStore.playlists.length > 0">
-      <div 
-        v-for="playlist in musicStore.playlists" 
-        :key="playlist.id"
-        class="playlist-item"
-        @click="selectPlaylist(playlist.id)"
-        :class="{ 'active': musicStore.currentPlaylistId === playlist.id }"
-      >
+      <div v-for="playlist in musicStore.playlists" :key="playlist.id" class="playlist-item"
+        @click="selectPlaylist(playlist.id)" :class="{ 'active': musicStore.currentPlaylistId === playlist.id }">
         <div class="playlist-image">
-          <v-img 
-            v-if="playlist.thumbnail"
-            :src="playlist.thumbnail" 
-            width="100%" 
-            height="100%"
-            cover
-          ></v-img>
+          <v-img v-if="playlist.thumbnail" :src="playlist.thumbnail" width="100%" height="100%" cover></v-img>
           <div v-else class="playlist-placeholder">
             <v-icon size="large">mdi-music-box-multiple</v-icon>
           </div>
         </div>
-        <div class="playlist-info">
+        <div class="playlist-info d-none d-sm-block">
           <h3 class="playlist-name">{{ playlist.name }}</h3>
           <p class="playlist-meta">{{ playlist.tracks.length }} songs</p>
           <p v-if="playlist.description" class="playlist-desc">{{ playlist.description }}</p>
@@ -73,13 +69,7 @@
         <div class="playlist-actions">
           <v-menu>
             <template v-slot:activator="{ props }">
-              <v-btn 
-                icon="mdi-dots-vertical" 
-                variant="text" 
-                size="small"
-                v-bind="props"
-                @click.stop
-              ></v-btn>
+              <v-btn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" @click.stop></v-btn>
             </template>
             <v-list class="bg-darken-3">
               <v-list-item @click="editPlaylist(playlist)" class="text-white">
@@ -111,22 +101,10 @@
       <v-card class="playlist-dialog" color="#282828">
         <v-card-title class="text-white">Edit Playlist</v-card-title>
         <v-card-text>
-          <v-text-field 
-            v-model="editingPlaylist.name" 
-            label="Playlist Name" 
-            class="mt-4"
-            variant="outlined"
-            density="compact"
-            color="#1DB954"
-          ></v-text-field>
-          <v-text-field 
-            v-model="editingPlaylist.description" 
-            label="Description" 
-            variant="outlined"
-            density="compact"
-            color="#1DB954"
-            class="mt-3"
-          ></v-text-field>
+          <v-text-field v-model="editingPlaylist.name" label="Playlist Name" class="mt-4" variant="outlined"
+            density="compact" color="#1DB954"></v-text-field>
+          <v-text-field v-model="editingPlaylist.description" label="Description" variant="outlined" density="compact"
+            color="#1DB954" class="mt-3"></v-text-field>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -194,6 +172,9 @@ const deletePlaylist = (playlistId: string) => {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+   height: calc(100vh - 72px);
+  padding-bottom: 150px;
+   
 }
 
 .playlist-header {
@@ -335,5 +316,41 @@ const deletePlaylist = (playlistId: string) => {
 
 .bg-darken-3 {
   background-color: #181818 !important;
+}
+
+
+.spotify-btn {
+  text-transform: none;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  background-color: #1ed760 !important;
+}
+
+.spotify-btn:hover {
+  background-color: #159b44 !important;
+  transform: scale(1.05);
+}
+
+.spotify-btn-cancel {
+  text-transform: none;
+  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  // background-color: #dd1414 !important;
+}
+
+.spotify-btn-cancel:hover {
+  background-color: #a11010 !important;
+  transform: scale(1.05);
+}
+
+
+@media screen and (max-width: 768px) {
+  .playlist-item {
+    padding: 0;
+  }
+
+  .playlist-container{
+     padding-bottom: 72px;
+  }
 }
 </style>

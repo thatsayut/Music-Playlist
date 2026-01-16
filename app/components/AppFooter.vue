@@ -1,28 +1,29 @@
 <template>
-  <v-footer app class="bg-black text-white ">
+  <v-footer app class="bg-black text-white px-1 px-sm-2">
     <audio ref="audioPlayer" @timeupdate="onTimeUpdate" @ended="onSongEnd"></audio>
 
     <v-container fluid class="py-0">
       <v-row align="center" justify="space-between" class="player-container">
         <v-col cols="12" sm="4" class="track-info">
           <v-row  align="center" class="gap-2">
-            <v-col cols="auto">
+            <v-col cols="2" sm="auto" class="px-0">
                 <v-img :src="currentTrack?.artworkUrl100 || currentTrack?.image || 'https://via.placeholder.com/56'"
               width="56" height="56" class="rounded"></v-img>
             </v-col>
             <v-col cols="8">
-              <p class="text-subtitle2 mb-0">{{ currentTrack?.trackName || currentTrack?.name || 'ไม่มีเพลง' }}</p>
-              <p class="text-caption text-grey mb-0">{{ currentTrack?.artistName || currentTrack?.artist || 'ศิลปิน' }}
+              <p class="text-subtitle2 mb-0 fm12">{{ currentTrack?.trackName || currentTrack?.name || 'ไม่มีเพลง' }}</p>
+              <p class="text-caption text-grey mb-0 fm12">{{ currentTrack?.artistName || currentTrack?.artist || 'ศิลปิน' }}
               </p>
             </v-col>
-            <!-- <v-col cols="1">
-              <v-btn icon="mdi-plus-circle-outline" variant="text" size="" color="grey"></v-btn>
-            </v-col> -->
+            <v-col cols="1" sm="0" class="d-flex d-sm-none">
+             <v-btn :icon="isPlaying ? 'mdi-pause-circle' : 'mdi-play-circle'" variant="text" size="large"
+              @click="togglePlay"></v-btn>
+            </v-col>
           </v-row>
        
         </v-col>
 
-        <v-col cols="12" sm="3">
+        <v-col cols="12" sm="3" class="d-none d-sm-block">
           <div class="d-flex align-center justify-center gap-3 mb-2">
             <v-btn icon="mdi-skip-previous" variant="text" size="small" @click="skipPrevious"></v-btn>
             <v-btn :icon="isPlaying ? 'mdi-pause-circle' : 'mdi-play-circle'" variant="text" size="large"
@@ -37,8 +38,8 @@
           </div>
         </v-col>
 
-        <v-col cols="12" sm="3" class="d-flex justify-end gap-2">
-          <!-- <v-btn icon="mdi-heart-outline" variant="text" size="small"></v-btn> -->
+        <v-col cols="12" sm="3" class=" justify-end gap-2 d-none d-sm-flex" >
+ 
           <v-btn icon="mdi-volume-high" variant="text" size="small"></v-btn>
           <v-slider v-model="volume" :max="100" class="volume-slider" hide-details color="green"
             @update:model-value="updateVolume"></v-slider>

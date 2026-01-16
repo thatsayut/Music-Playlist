@@ -1,0 +1,200 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+.main-content {
+  padding-bottom: 72px;
+}
+
+.f10 {
+  font-size: 10px;
+}
+.f12 {
+  font-size: 12px;
+}
+.f13 {
+  font-size: 13px;
+}
+.f14 {
+  font-size: 14px;
+}
+.f16 {
+  font-size: 16px;
+}
+.f17 {
+  font-size: 17px;
+}
+
+.f18 {
+  font-size: 18px;
+}
+.f20 {
+  font-size: 20px;
+}
+.f22 {
+  font-size: 22px;
+}
+.f32,
+i.f32 {
+  font-size: 32px;
+}
+.f24,
+i.f24 {
+  font-size: 24px;
+}
+.f40,
+i.f40 {
+  font-size: 40px;
+}
+.f55,
+i.f55 {
+  font-size: 55px;
+}
+.v-col-2-5 {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+  .sm_table_nopadding {
+    table {
+      tr {
+        td {
+          padding: 0 !important;
+        }
+      }
+    }
+  }
+  .fsm16 {
+    font-size: 16px !important;
+  }
+  .fsm14 {
+    font-size: 14px !important;
+  }
+  .fsm12 {
+    font-size: 12px !important;
+  }
+
+  .fm14,
+  .fm14 p {
+    font-size: 14px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .v-col.v-col-2-5 {
+    flex: 0 0 22%;
+    max-width: 22%;
+    padding: 2px !important;
+  }
+
+  .v-col.v-col-9-5 {
+    flex: 0 0 78%;
+    max-width: 78%;
+    padding: 2px !important;
+  }
+
+   .no_padding_m {
+    .v-row {
+      .v-col {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+      }
+    }
+  }
+
+  .no_padding_m.v-row {
+    > div {
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+  }
+
+ 
+  .register_page .main_content {
+    padding-top: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .w_md_25 {
+    width: 0;
+  }
+  .w_md_25 {
+    width: 0%;
+  }
+  .w_100 {
+    width: 100%;
+  }
+
+  .fm32 {
+    font-size: 32px !important;
+  }
+  .fm30 {
+    font-size: 30px !important;
+  }
+  .fm24 {
+    font-size: 24px !important;
+  }
+  .fm20 {
+    font-size: 20px !important;
+  }
+  .fm18,
+  i.fm18 {
+    font-size: 18px !important;
+  }
+  .fm16,
+  .fm16 p,
+  span.fm16 {
+    font-size: 16px !important;
+  }
+  .fm14,
+  .fm14 p {
+    font-size: 14px !important;
+  }
+  .fm12,
+  .fm12 p {
+    font-size: 12px !important;
+  }
+  .w-100-m {
+    width: 100% !important;
+  }
+  .height_auto_m {
+    height: auto !important;
+  }
+  .tab_buy {
+    width: 100% !important;
+  }
+  .bg_SelectNumber .SelectNumber {
+    width: 22%;
+    margin-right: 2px !important;
+    margin-left: 2px !important;
+  }
+  .card_information {
+    height: auto;
+  }
+
+  .text-right-custom {
+    text-align: right !important;
+  }
+
+  .no_padding_m {
+    .v-row {
+      .v-col {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+      }
+    }
+  }
+
+  .no_padding_m.v-row {
+    > div {
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+    }
+  }
+
+  
+}

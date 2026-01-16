@@ -25,7 +25,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
+      <!-- <v-btn
         icon="mdi-bell-outline"
         variant="text"
         class="spotify-icon-btn"
@@ -35,7 +35,7 @@
         icon="mdi-account-circle-outline"
         variant="text"
         class="spotify-icon-btn"
-      ></v-btn>
+      ></v-btn> -->
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" temporary>

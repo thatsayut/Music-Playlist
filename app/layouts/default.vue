@@ -2,7 +2,7 @@
   <v-layout class="layout-wrapper">
     <AppHeader @search="handleSearch" />
     
-    <v-main>
+    <v-main class="main-content">
       <slot />
     </v-main>
     
@@ -28,6 +28,7 @@ const handleSearch = (query: string) => {
 
 :deep(.v-main) {
   background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-  overflow: hidden;
+  /* overflow: hidden; */
+
 }
 </style>

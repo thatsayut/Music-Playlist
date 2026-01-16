@@ -26,6 +26,11 @@ This application allows users to search for music tracks and view song details s
 
 ---
 
+## 📱 Responsive Design
+
+The application supports responsive design for mobile, tablet, and desktop devices using Vuetify's grid system and breakpoints.
+
+
 ## 📦 Requirements
 
 - **Node.js** v18 or higher  

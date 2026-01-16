@@ -82,90 +82,93 @@ onMounted(() => {
 
 <template>
   <v-container fluid class="pa-0 spotify-container">
-    <v-row class="no-gutters playlist_main" style="min-height: calc(100vh - 200px);">
+    <v-row class="no-gutters playlist_main pb-15">
 
-      <v-col md="3" class="spotify-sidebar pa-6"
-        style="background-color: #121212; overflow-y: auto; max-height: calc(100vh - 200px);">
+      <v-col md="3" sm="4" cols="2-5" class="spotify-sidebar pa-sm-6 pr-0 pr-sm-2">
+
         <PlaylistList @select-playlist="updateSelectedPlaylist" />
       </v-col>
 
 
-      <v-col md="9" class="spotify-main pa-8"
-        style="background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%); overflow-y: auto; max-height: calc(100vh - 200px);">
+      <v-col md="9" sm="8" cols="9" class=" "> 
+        <div class="spotify-main   pl-md-4 pr-md-4">
 
-
-        <div v-if="musicStore.currentPlaylistId" class="playlist-view">
-          <PlaylistDetail />
-        </div>
-
-        <div v-else class="browse-view">
-          <div class="mb-10">
-            <h1 class="spotify-title" style="color: #fff; font-weight: 700; margin-bottom: 0.5rem;">
-              {{ musicStore.searchQuery || 'Popular Songs' }}</h1>
-            <p style="color: #b3b3b3; font-size: 0.95rem;">{{ musicStore.tracks.length }} songs</p>
+          <div v-if="musicStore.currentPlaylistId" class="playlist-view">
+            <PlaylistDetail />
           </div>
 
+          <div v-else class="browse-view">
+            <div class="mb-10">
+              <h1 class="spotify-title fm20">
+                {{ musicStore.searchQuery || 'Popular Songs' }}</h1>
+              <p style="color: #b3b3b3; font-size: 0.95rem;">{{ musicStore.tracks.length }} songs</p>
+            </div>
 
-          <div v-if="musicStore.isLoading" class="text-center py-12">
-            <v-progress-circular indeterminate color="#1DB954" size="50"></v-progress-circular>
+
+            <div v-if="musicStore.isLoading" class="text-center py-12">
+              <v-progress-circular indeterminate color="#1DB954" size="50"></v-progress-circular>
+            </div>
+
+
+            <v-row v-else class="ga-sm-4 ">
+              <v-col cols="12">
+                <v-row justify="center" align="center" class="mb-sm-8">
+                  <v-col md="2" cols="4">
+                    <v-img :src="musicStore.tracks[0]?.artworkUrl100" width="100%"
+                      class="rounded-lg spotify-artwork"></v-img>
+                  </v-col>
+                  <v-col>
+                    <p>Album</p>
+                    <h2> {{ musicStore.tracks[0]?.trackName }}</h2>
+                    <p>{{ new Date(musicStore.tracks[0]?.releaseDate).getFullYear() }} , {{
+                      formatDuration(musicStore.tracks[0]?.trackTimeMillis) }}</p>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col cols="12" class="no_padding_m">
+                <v-row>
+                  <v-col cols="1">#</v-col>
+                  <v-col>
+                    <p>Title</p>
+                  </v-col>
+                  <v-col class="text-right pr-5 pr-sm-3"><v-icon>mdi-clock-time-five-outline</v-icon></v-col>
+                </v-row>
+                <v-row v-for="track, key in musicStore.tracks" :key="track.trackId" class="spotify-card "
+                  justify="center" align="center" :class="{ 'playing': musicStore.currentTrackId === track.trackId }"
+                  @click="playTrack(track)" :style="{
+                    cursor: 'pointer',
+
+                    transition: 'all 0.3s ease',
+
+                  }" @mouseenter="hoveredTrackId = track.trackId" @mouseleave="hoveredTrackId = null">
+                  <v-col cols="auto" class="d-none d-sm-block">{{ key + 1 }}</v-col>
+
+                  <v-col cols="9" md="8" sm="7" lg="9">
+                    <v-row justify="center" align="center" class="my-2 my-sm-0">
+                      <v-col cols="auto" class="pr-0">
+                        <v-img :src="track.artworkUrl100" width="40" height="40" class="rounded"></v-img>
+                      </v-col>
+                      <v-col class="">
+                        <p class="mb-0 fm12">{{ track.trackName }}</p>
+                        <span class="fm12">{{ track.artistName }}</span>
+                      </v-col>
+                    </v-row>
+
+                  </v-col>
+                  <v-col class="text-right" col="" sm="1" md="">
+                    <v-btn icon="mdi-plus" variant="text" style="color: #b3b3b3;" @click.stop="addToPlaylist(track)"
+                      class="flex-grow-1 spotify-action-btn"></v-btn>
+                  </v-col>
+
+                  <v-col class="text-right pr-10 pr-sm-0 d-none d-sm-flex" md="" lg="">
+                    <p>{{ formatDuration(track.trackTimeMillis) }}</p>
+                  </v-col>
+                </v-row>
+
+              </v-col>
+
+            </v-row>
           </div>
-
-
-          <v-row v-else class="ga-4" >
-            <v-col cols="12">
-              <v-row justify="center" align="center" class="mb-8">
-                <v-col md="2"><v-img :src="musicStore.tracks[0]?.artworkUrl100" width="100%" height="200"
-                    class="rounded-lg spotify-artwork"></v-img></v-col>
-                <v-col>
-                  <p>Album</p>
-                  <h2> {{ musicStore.tracks[0]?.trackName }}</h2>
-                  <p>{{ new Date(musicStore.tracks[0]?.releaseDate).getFullYear() }} , {{
-                    formatDuration(musicStore.tracks[0]?.trackTimeMillis) }}</p>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12">
-              <v-row>
-                <v-col cols="1">#</v-col>
-                <v-col>
-                  <p>Title</p>
-                </v-col>
-                <v-col class="text-right"><v-icon>mdi-clock-time-five-outline</v-icon></v-col>
-              </v-row>
-              <v-row v-for="track, key in musicStore.tracks" :key="track.trackId" class="spotify-card" justify="center" align="center"
-                :class="{ 'playing': musicStore.currentTrackId === track.trackId }"
-                 @click="playTrack(track)" :style="{
-                  cursor: 'pointer',
-
-                  transition: 'all 0.3s ease',
-
-                }" @mouseenter="hoveredTrackId = track.trackId" @mouseleave="hoveredTrackId = null"
-              >
-                <v-col cols="auto">{{ key + 1 }}</v-col>
-
-                <v-col cols="9">
-                  <v-row justify="center" align="center">
-                    <v-col cols="auto" class="pr-0">
-                      <v-img :src="track.artworkUrl100" width="40" height="40" class="rounded"></v-img>
-                    </v-col>
-                    <v-col class="" >
-                      <p class="mb-0">{{ track.trackName }}</p>
-                      <span>{{ track.artistName }}</span>
-                    </v-col>
-                  </v-row>
-
-                </v-col>
-                <v-col class="text-right">
-                  <v-btn icon="mdi-plus" variant="text" style="color: #b3b3b3;" @click.stop="addToPlaylist(track)"
-                    class="flex-grow-1 spotify-action-btn"></v-btn>
-                </v-col>
-
-                <v-col class="text-right"><p >{{ formatDuration(track.trackTimeMillis) }}</p></v-col>
-              </v-row>
-
-            </v-col>
-
-          </v-row>
         </div>
       </v-col>
     </v-row>
@@ -247,7 +250,9 @@ onMounted(() => {
 
 .spotify-main {
   background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
-  overflow-y: auto;
+  overflow-y: scroll;
+  height: calc(100vh - 72px);
+  padding-bottom: 150px;
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -271,6 +276,9 @@ onMounted(() => {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: -0.5px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 
 .spotify-card {
@@ -313,6 +321,20 @@ onMounted(() => {
   animation: fadeIn 0.2s ease-in-out;
   z-index: 10;
 }
+
+@media screen and (max-width: 600px) {
+
+  .spotify-main {
+
+    padding-bottom: 72px;
+  }
+
+}
+
+
+
+
+
 
 @keyframes fadeIn {
   from {

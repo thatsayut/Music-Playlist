@@ -3,27 +3,17 @@
     <div v-if="musicStore.currentPlaylist" class="playlist-detail">
       <!-- Back to Home Button -->
       <div class="mb-4">
-        <v-btn 
-          variant="text" 
-          prepend-icon="mdi-home"
-          color="#b3b3b3"
-          @click="goHome"
-          style="font-size: 0.95rem;"
-        >
+        <v-btn variant="text" prepend-icon="mdi-home" color="#b3b3b3" @click="goHome" style="font-size: 0.95rem;"
+          class="fm14">
           Back to Home
         </v-btn>
       </div>
 
       <!-- Playlist Header -->
-      <div class="playlist-header-section">
+      <div class="playlist-header-section d-flex align-sm-left align-center  flex-wrap">
         <div class="playlist-cover">
-          <v-img 
-            v-if="musicStore.currentPlaylist.thumbnail"
-            :src="musicStore.currentPlaylist.thumbnail" 
-            width="100%" 
-            height="100%"
-            cover
-          ></v-img>
+          <v-img v-if="musicStore.currentPlaylist.thumbnail" :src="musicStore.currentPlaylist.thumbnail" width="100%"
+            height="100%" cover></v-img>
           <div v-else class="playlist-placeholder">
             <v-icon size="80">mdi-music-box-multiple</v-icon>
           </div>
@@ -39,31 +29,25 @@
             {{ musicStore.currentPlaylist.tracks.length }} songs
           </p>
         </div>
+        <div class="d-sm-none d-flex">
+          <v-btn color="#1DB954" rounded="pill" size="" icon="mdi-play" @click="playFirstTrack"
+            v-if="musicStore.currentPlaylist.tracks.length > 0"></v-btn>
+        </div>
+
       </div>
 
       <!-- Playlist Controls -->
-      <div class="playlist-controls">
-        <v-btn 
-          color="#1DB954" 
-          rounded="pill"
-          size="large"
-          icon="mdi-play"
-          @click="playFirstTrack"
-          v-if="musicStore.currentPlaylist.tracks.length > 0"
-        ></v-btn>
+      <div class="playlist-controls d-none d-sm-flex mb-sm-2">
+        <v-btn color="#1DB954" rounded="pill" size="large" icon="mdi-play" @click="playFirstTrack"
+          v-if="musicStore.currentPlaylist.tracks.length > 0"></v-btn>
       </div>
+
 
       <!-- Tracks List -->
       <div v-if="musicStore.currentPlaylist.tracks.length > 0" class="tracks-list">
-        <div 
-          v-for="(track, index) in musicStore.currentPlaylist.tracks" 
-          :key="track.trackId"
-          class="track-item"
-          :class="{ 'playing': musicStore.currentTrackId === track.trackId }"
-          @click="playTrack(track)"
-          @mouseenter="hoveredTrackId = track.trackId"
-          @mouseleave="hoveredTrackId = null"
-        >
+        <div v-for="(track, index) in musicStore.currentPlaylist.tracks" :key="track.trackId" class="track-item"
+          :class="{ 'playing': musicStore.currentTrackId === track.trackId }" @click="playTrack(track)"
+          @mouseenter="hoveredTrackId = track.trackId" @mouseleave="hoveredTrackId = null">
           <div class="track-number">{{ index + 1 }}</div>
           <div class="track-artwork">
             <v-img :src="track.artworkUrl100" width="50" height="50" class="rounded"></v-img>
@@ -75,20 +59,10 @@
             <p class="track-artist">{{ track.artistName }}</p>
           </div>
           <div class="track-actions" v-if="hoveredTrackId === track.trackId">
-            <v-btn 
-              icon="mdi-play-circle" 
-              variant="text" 
-              size="small"
-              color="#1DB954"
-              @click.stop="playTrack(track)"
-            ></v-btn>
-            <v-btn 
-              icon="mdi-trash-can" 
-              variant="text" 
-              size="small"
-              color="#b3b3b3"
-              @click.stop="removeTrack(track.trackId)"
-            ></v-btn>
+            <v-btn icon="mdi-play-circle" variant="text" size="small" color="#1DB954"
+              @click.stop="playTrack(track)"></v-btn>
+            <v-btn icon="mdi-trash-can" variant="text" size="small" color="#b3b3b3"
+              @click.stop="removeTrack(track.trackId)"></v-btn>
           </div>
         </div>
       </div>
@@ -143,8 +117,10 @@ const goHome = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+
   color: #fff;
+  overflow-y: scroll;
+  height: calc(100vh - 72px);
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -173,7 +149,7 @@ const goHome = () => {
 .playlist-header-section {
   display: flex;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
@@ -225,9 +201,9 @@ const goHome = () => {
   }
 }
 
-.playlist-controls {
-  margin-bottom: 2rem;
-}
+// .playlist-controls {
+//   margin-bottom: 2rem;
+// }
 
 .tracks-list {
   flex: 1;
@@ -332,5 +308,17 @@ const goHome = () => {
   flex: 1;
   padding: 2rem;
   text-align: center;
+}
+
+
+@media screen and (max-width: 600px) {
+  .playlist-header-section .playlist-cover {
+    width: 70px;
+    height: 70px;
+  }
+
+  .playlist-header-section {
+    padding-bottom: 0;
+  }
 }
 </style>
